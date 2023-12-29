@@ -1,0 +1,11 @@
+body {
+    background-color: #9ca1a0;
+    /* Other styles */
+}
+
+
+/* Example CSS to control the image size */
+.post-image {
+    max-width: 100%; /* Set the maximum width to prevent stretching */
+    height: auto; /* Maintain the aspect ratio */
+}

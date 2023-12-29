@@ -1,0 +1,50 @@
+{% extends "posts/post_base.html" %}
+
+
+{% load bootstrap5 %}
+
+{% block post_content %}
+
+    <h4>Create a new Post</h4>
+    <form id="postForm" action="{% url 'posts:create_post' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        
+        <!-- Render the message field -->
+        <!-- Render the message field manually with Bootstrap 5 styling -->
+
+        <div class="mb-3">
+            <label for="{{ form.image.id_for_label }}" class="form-label">Image</label>
+            {{ form.image }}
+            {% if form.image.help_text %}
+                <div class="form-text">{{ form.image.help_text|safe }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.message.id_for_label }}" class="form-label">Message</label>
+            <textarea class="form-control" id="{{ form.message.id_for_label }}" name="{{ form.message.name }}" required>{{ form.message.value|default:'' }}</textarea>
+            {% if form.message.help_text %}
+                <div class="form-text">{{ form.message.help_text|safe }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.group.id_for_label }}" class="form-label">{{ form.group.label }}</label>
+            <select class="form-select" id="group" name="group" required>
+                {% for group in groups %}
+                    <option value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+            {% if form.group.help_text %}
+                <div class="form-text">{{ form.group.help_text|safe }}</div>
+            {% endif %}
+        </div>
+        
+
+        <br>
+        {% buttons %}
+            <button type="submit" class="btn btn-primary btn-large">Post</button>
+        {% endbuttons %}
+    </form>
+{% endblock %}

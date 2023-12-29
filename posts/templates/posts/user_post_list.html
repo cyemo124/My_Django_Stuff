@@ -1,0 +1,49 @@
+{% extends 'posts/post_base.html' %}
+
+{% block prepost %}
+<div class="col-md-4">
+    <h1>@{{post_user.username}}</h1>
+</div>
+
+{% endblock %}
+
+{% block post_content %}
+<div class="col-md-8">
+    <div class="container">
+        {% for post in post_list %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.message }}</h5>
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="Post Image" class="card-img-top img-fluid">
+                    {% endif %}
+                    <div class="media-body">
+                        <!-- <strong>{{post.user.username}}</strong> -->
+                        <h5 class="media-heading">
+                        <span class="username">
+                            <a href="{% url 'posts:for_user' username=post.user.username %}">@{{post.user.username}}</a>
+                        </span>
+                        <time class="time">
+                            <a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">
+                                {{post.created_at}}
+                            </a>
+                        </time>
+                        </h5>
+                
+                        <div class="media-footer">
+                            {% if user.is_authenticated and post.user == user %}
+                            <a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-simple">
+                                <span class="text-danger" aria-hidden="true">
+                                    <i class="fas fa-trash"></i>Delete
+                                </span>  
+                            </a>
+                            {% endif %}
+                
+                        </div>
+                    <!-- Other post details -->
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
