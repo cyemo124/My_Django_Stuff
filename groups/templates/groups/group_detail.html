@@ -1,0 +1,44 @@
+{% extends "groups/group_base.html" %}
+
+{% block pregroup %}
+    <h1>{{ group.name }}</h1>
+    <h2>Member Count: {{ group.member_count }}</h2>
+
+    <div class="content">
+        {% if user in group.members.all %}
+            <a href="{% url 'groups:leave' slug=group.slug %}" class="btn btn-lg btn-fill btn-warning">
+                <i class="fa-sharp fa-solid fa-circle-xmark"></i>Leave
+            </a>
+        {% else %}
+            <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-fill btn-warning">
+                <i class="fa-solid fa-circle-check"></i>Join
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block group_content %}
+    {% load bootstrap5 %}
+    <br>
+    <br>
+    <div class="col-md-8">
+        <form id="postForm" action="{% url 'posts:create_post' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <br>
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+        <br>
+        <br>
+        <br>
+
+        {% if group.post_count == 0 %}
+            <h2>No posts in this group yet!</h2>
+        {% else %}
+            {% for post in post_list %}
+                {% include 'posts/_post.html' %}
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
+

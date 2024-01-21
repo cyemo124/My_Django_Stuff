@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    {% for post in posts %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.message }}</h5>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Post Image" class="card-img-top img-fluid">
+                {% endif %}
+                <p class="card-text">Created at: {{ post.created_at }}</p>
+                <p class="card-text">Posted by: {{ post.user.username }}</p>
+                <!-- Other post details -->
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+
+        
+
